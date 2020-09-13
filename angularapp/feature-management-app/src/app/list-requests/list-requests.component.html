@@ -1,0 +1,27 @@
+<p></p>
+<table class="table">
+    <thead class="thead-dark">
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Title</th>
+        <th scope="col">Description</th>
+        <th scope="col">Priority</th>
+        <th scope="col">Client</th>
+        <th scope="col">Product Area</th>  
+        <th scope="col">Target Date</th>      
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let featurerequest of featurerequests;index as i"> 
+        <th scope="row">{{i+1}}</th>
+        <td>{{featurerequest.title}}</td>
+        <td>{{featurerequest.description}}</td>
+        <td>{{featurerequest.priority}}</td>
+        <td>{{featurerequest.client}}</td>
+        <td>{{featurerequest.productArea}}</td>
+        <td>{{featurerequest.targetDate}}</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  
