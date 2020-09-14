@@ -5,8 +5,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.dhafnas.featuremanage.convertor.FeatureRequestConvertor;
 import com.dhafnas.featuremanage.entity.FeatureRequest;
@@ -23,21 +26,27 @@ import com.dhafnas.featuremanage.service.FeatureRequestService;
  */
 @Service
 public class FeatureRequestServiceImpl implements FeatureRequestService {
-
+	Logger logger = LoggerFactory.getLogger(FeatureRequestServiceImpl.class);
+	
 	@Autowired
 	FeatureRequestRepository featureRequestRepository;
 
 	/**
 	 * To create new feature request
 	 */
+	@Transactional
 	@Override
 	public FeatureRequestModel createFeatureRequest(FeatureRequestModel feature) {
 		if (isPriorityAlreadyExists(feature)) {
+			logger.info("Feature request exists with same priority");
 			updateExistingFeatureRequestsPriority(feature.getClient(), feature.getPriority());
+			logger.info("Updated priority of existing feature-request");
+			
 		}
 		FeatureRequest newFeature = FeatureRequestConvertor.convert(feature);
 		newFeature = featureRequestRepository.save(newFeature);
 		feature.setId(newFeature.getId().intValue());
+		logger.info("new feature request created with id {}",newFeature.getId().intValue());
 		return feature;
 	}
 

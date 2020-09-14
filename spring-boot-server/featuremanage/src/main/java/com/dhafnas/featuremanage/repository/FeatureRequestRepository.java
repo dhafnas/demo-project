@@ -23,7 +23,6 @@ public interface FeatureRequestRepository extends CrudRepository<FeatureRequest,
 			+ "select ifnull(min(t.start),0) from t")
 	public int getUppperPriorityLimit(@Param("client") String client, @Param("priority") int priority);
 
-	@Transactional
 	@Modifying
 	@Query(nativeQuery = true, value = "UPDATE feature_request f SET f.priority = f.priority+1 WHERE f.client = :client and f.priority >=:priorityFrom \n"
 			+ "and (f.priority <= :priorityTo  OR 0 =:priorityTo)")
